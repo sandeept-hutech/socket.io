@@ -22,4 +22,9 @@ io.on("connection", (socket) => {
   socket.on("message", (msg) => {
     socket.broadcast.emit("message", msg);
   });
+
+  // socket.on("typing", (textarea) => {
+  //   console.log("typing...");
+  //   socket.broadcast.emit("typing", textarea);
+  // });
 });
