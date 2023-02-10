@@ -7,19 +7,25 @@ let type = document.querySelector(".typing");
 
 do {
   name = prompt("Please enter your name: ");
-  type.innerHTML = `${name} joined meeting.....`;
+  type.innerHTML = `${name} is joined......`;
 } while (!name);
 
 textarea.addEventListener("keyup", (e) => {
   if (e.key === "Enter") {
     sendMessage(e.target.value);
-    socket.emit("typing", e.value);
+    // socket.emit("typing", e.value);
   }
 });
 
-textarea.addEventListener("keyup", () => {
-  socket.emit("typing", textarea.value);
+textarea.addEventListener("keypress", function () {
+  if (handle.value.length > 0) {
+    socket.emit("typing", handle.value);
+  }
 });
+
+// textarea.addEventListener("keyup", () => {
+//   socket.emit("typing", textarea.value);
+// });
 
 function sendMessage(message) {
   var currentdate = new Date();
@@ -58,11 +64,10 @@ socket.on("message", (msg) => {
   scrollToBottom();
 });
 
-socket.on("typing", (name) => {
-  appendMessage(name, "typing");
-  scrollToBottom();
-  type.innerHTML = `<p>${name} : is typeing.....</p>`;
-});
+// socket.on("typing", (name) => {
+//   appendMessage(name, "typing");
+//   scrollToBottom();
+// });
 
 function scrollToBottom() {
   messageArea.scrollTop = messageArea.scrollHeight;

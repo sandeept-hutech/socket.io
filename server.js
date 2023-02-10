@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-// Socket
+// Socket.io
 const io = require("socket.io")(http);
 
 io.on("connection", (socket) => {
@@ -23,8 +23,13 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("message", msg);
   });
 
-  // socket.on("typing", (textarea) => {
-  //   console.log("typing...");
-  //   socket.broadcast.emit("typing", textarea);
-  // });
+  // Handle typing event
+  socket.on("typing", function (data) {
+    socket.broadcast.emit("typing", data);
+  });
+
+  socket.on("typing", (textarea) => {
+    console.log("typing...");
+    socket.broadcast.emit("typing", textarea);
+  });
 });
